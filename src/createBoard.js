@@ -1,4 +1,5 @@
 const outBounds = require('./utils/outBounds');
+const calcNumNearMines = require('./utils/calcNumNearMines');
 
 const addMine = () => {
   const rng = Math.random();
@@ -20,24 +21,7 @@ const calcNearMines = (board) => {
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
       if (board[i][j] != -1) {
-        let numMines = 0;
-        numMines +=
-          !outBounds(i - 1, j - 1, size) && board[i - 1][j - 1] == -1 ? 1 : 0;
-        numMines += 
-          !outBounds(i - 1, j, size) && board[i - 1][j] == -1 ? 1 : 0;
-        numMines +=
-          !outBounds(i - 1, j + 1, size) && board[i - 1][j + 1] == -1 ? 1 : 0;
-        numMines +=
-          !outBounds(i, j - 1, size) && board[i][j - 1] == -1 ? 1 : 0;
-        numMines +=
-          !outBounds(i, j + 1, size) && board[i][j + 1] == -1 ? 1 : 0;
-        numMines +=
-          !outBounds(i + 1, j - 1, size) && board[i + 1][j - 1] == -1 ? 1 : 0;
-        numMines +=
-          !outBounds(i + 1, j, size) && board[i + 1][j] == -1 ? 1 : 0;
-        numMines +=
-          !outBounds(i + 1, j + 1, size) && board[i + 1][j + 1] == -1 ? 1 : 0;
-        board[i][j] = numMines;
+        board[i][j] = calcNumNearMines(i, j, board);
       }
     }
   }

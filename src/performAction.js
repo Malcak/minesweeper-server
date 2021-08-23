@@ -1,20 +1,5 @@
 const outBounds = require('./utils/outBounds');
-
-const calcNear = (x, y, board) => {
-  if (outBounds(x, y)) return 0;
-  let numMines = 0;
-  for (let offsetX = -1; offsetX <= 1; offsetX++) {
-    for (let offsetY = -1; offsetY <= 1; offsetY++) {
-      if (
-        !outBounds(offsetX + x, offsetY + y, board.length) &&
-        board[offsetX + x][offsetY + y] == -1
-      ) {
-        numMines += 1;
-      }
-    }
-  }
-  return numMines;
-};
+const calcNumNearMines = require('./utils/calcNumNearMines');
 
 const isMine = (x, y, board) => {
   return board[x][y] == -1;
@@ -30,7 +15,7 @@ const reveal = (x, y, prevState) => {
   const { board, flags } = prevState;
   flags[x][y] = 1;
   let nextState = { board, flags };
-  if (calcNear(x, y, board) != 0) return nextState;
+  if (calcNumNearMines(x, y, board) != 0) return nextState;
   nextState = reveal(x - 1, y - 1, nextState);
   nextState = reveal(x - 1, y + 1, nextState);
   nextState = reveal(x + 1, y - 1, nextState);
