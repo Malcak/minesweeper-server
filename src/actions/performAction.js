@@ -1,5 +1,5 @@
-const outBounds = require('./utils/outBounds');
-const calcNumNearMines = require('./utils/calcNumNearMines');
+const outBounds = require('../utils/outBounds');
+const calcNumNearMines = require('../utils/calcNumNearMines');
 
 const isMine = (x, y, board) => {
   return board[x][y] == -1;

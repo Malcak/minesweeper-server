@@ -3,8 +3,8 @@ const http = require('http');
 const express = require('express');
 const { Server } = require('socket.io');
 
-const createBoard = require('./createBoard');
-const performAction = require('./performAction');
+const createBoard = require('./actions/createBoard');
+const performAction = require('./actions/performAction');
 
 const app = express();
 app.set('port', process.env.PORT || 4000);
