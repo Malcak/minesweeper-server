@@ -9,6 +9,7 @@ const { createAdapter, setupPrimary } = require('@socket.io/cluster-adapter');
 
 const createBoard = require('./actions/createBoard');
 const performAction = require('./actions/performAction');
+const setFlag = require('./actions/setFlag');
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
@@ -64,5 +65,6 @@ if (cluster.isMaster) {
     console.log('a user connected');
     socket.on('createBoard', createBoard);
     socket.on('performAction', performAction);
+    socket.on('setFlag', setFlag);
   });
 }
