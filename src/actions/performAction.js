@@ -1,6 +1,7 @@
 const outBounds = require('../utils/outBounds');
 const calcNumNearMines = require('../utils/calcNumNearMines');
 const isWinState = require('../utils/isWinState');
+const clearBoard = require('../utils/clearBoard');
 
 const isMine = (x, y, board) => {
   return board[x][y] == -1;
@@ -36,6 +37,7 @@ const performAction = (data, callback) => {
   const nextState = reveal(coords.x, coords.y, { board, flags });
 
   if (isMine(coords.x, coords.y, board)) {
+    nextState.flags = clearBoard(nextState.flags);
     callback({ ...nextState, condition: 'lose' });
   } else if (isWinState(nextState)) {
     callback({ ...nextState, condition: 'win' });
