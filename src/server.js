@@ -52,8 +52,7 @@ if (cluster.isMaster) {
 
   const io = new Server(server, {
     cors: {
-      origin: ['http://localhost:3000'],
-      origin: ['http://127.0.0.1:5500'],
+      origin: ['https://minesweeper-clinet-pdyp.herokuapp.com/'],
     },
   });
 
