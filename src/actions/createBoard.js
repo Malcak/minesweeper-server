@@ -24,7 +24,6 @@ const placeMines = (board) => {
       const row = Array.from({ length: size }, () => addMine());
       board[index] = row;
     }
-    console.log(!isBoardValid(board));
   } while (!isBoardValid(board));
 
   return board;
