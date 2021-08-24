@@ -15,6 +15,7 @@ const reveal = (x, y, prevState) => {
   const { board, flags } = prevState;
   flags[x][y] = 1;
   let nextState = { board, flags };
+  if (isMine(x, y, board)) return nextState;
   if (calcNumNearMines(x, y, board) != 0) return nextState;
   nextState = reveal(x - 1, y - 1, nextState);
   nextState = reveal(x - 1, y + 1, nextState);
@@ -54,6 +55,10 @@ const allMinesIdentified = (state) => {
   return areAllFlagsCorrect;
 };
 
+const isLoseState = (x, y, state) => {
+  return isMine(x, y, state.board);
+};
+
 const isWinState = (state) => {
   return allCellsTouched(state) && allMinesIdentified(state);
 };
@@ -61,16 +66,14 @@ const isWinState = (state) => {
 const performAction = (data, callback) => {
   const { coords, board, flags } = data;
 
-  if (isMine(coords.x, coords.y, board)) {
-    callback({ board, flags, condition: 'lose' });
-    return;
-  }
-  const state = reveal(coords.x, coords.y, { board, flags });
+  const nextState = reveal(coords.x, coords.y, { board, flags });
 
-  if (isWinState(state)) {
-    callback({ ...state, condition: 'win' });
+  if (isLoseState(coords.x, coords.y, nextState)) {
+    callback({ board, flags, condition: 'lose' });
+  } else if (isWinState(nextState)) {
+    callback({ ...nextState, condition: 'win' });
   } else {
-    callback({ ...state, condition: 'playing' });
+    callback({ ...nextState, condition: 'playing' });
   }
 };
 
