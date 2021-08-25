@@ -1,6 +1,7 @@
 const numCPUs = require('os').cpus().length;
 const cluster = require('cluster');
 const path = require('path');
+const cors = require('cors');
 const http = require('http');
 const express = require('express');
 const { Server } = require('socket.io');
@@ -16,6 +17,7 @@ if (cluster.isMaster) {
 
   const app = express();
   app.set('port', process.env.PORT || 4000);
+  app.use(cors)
 
   const server = http.createServer(app);
 
@@ -48,11 +50,14 @@ if (cluster.isMaster) {
 } else {
   console.log(`Worker ${process.pid} started`);
 
-  const server = http.createServer();
+  const app = express();
+  app.use(cors)
+
+  const server = http.createServer(app);
 
   const io = new Server(server, {
     cors: {
-      origin: ['https://minesweeper-clinet-pdyp.herokuapp.com/'],
+      origins: ['*'],
     },
   });
 
